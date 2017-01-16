@@ -18,13 +18,19 @@
           <span class="input-label">Passwort</span>
           <input type="{{inputType}}" ng-model="regData.password" placeholder="">
         </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Passwort wiederholen</span>
+          <input type="{{inputType}}" ng-model="regData.passwordrepeat" placeholder="">
+        </label>
         <div class="item item-divider"></div>        
           <ion-checkbox id="checkbox" ng-click="hideShowPassword()">Passwort einblenden</ion-checkbox>
         <div class="item item-divider"></div>  
         <label class="item">
           <button class="button button-block button-positive" type="submit">Konto erstellen</button>
         </label>
-        
+        <label class="item">
+          <button class="button button-block button-dark" type="button" ng-click="toLogin()">Abbrechen</button>
+        </label>
       </div>
     </form>
   </ion-content>

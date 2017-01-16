@@ -6,14 +6,16 @@ angular.module('starter.controllers', [])
     disableBack: true,
     historyRoot: true
   });
-  $scope.loginData = {};
 
   $scope.doLogout = function(){
     $state.go('login');
   };
 })
 
-.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $http) {
+.controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $http, $ionicPopup) {
+
+  $scope.loginData = {};
+
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicHistory.nextViewOptions({
     disableBack: true,
@@ -37,6 +39,12 @@ angular.module('starter.controllers', [])
     $state.go('registration');
   };
 
+  $scope.failedLogin = function() {
+         var failedLoginPopup = $ionicPopup.alert({
+           title: 'Fehlgeschlagen!',
+           template: 'Benutzername oder Passwort falsch'
+         })};
+
   $http.get('http://localhost/MemoRandomBackend/getContactdata.php/').then(function (response) {
     console.log(response);
     $scope.data = response.data;
@@ -45,11 +53,22 @@ angular.module('starter.controllers', [])
 
   $scope.doLogin = function(){
 
-    $state.go('app.searchroom');
+    $http.post('http://localhost/MemoRandomBackend/setContactdata.php', $scope.loginData).success(function (data,status){
+      console.log("HTTP POST: " + status + data);
+
+      if(data == 1){
+        $state.go('app.searchroom');
+      }
+      else {
+        $scope.failedLogin();
+      }
+    });
+
+   /* $state.go('app.searchroom');
     $ionicHistory.nextViewOptions({
       disableBack: true,
       historyRoot: true
-    });
+    });*/
   };
 
 })
@@ -60,6 +79,10 @@ angular.module('starter.controllers', [])
     disableBack: true,
     historyRoot: true
   });
+
+  $scope.toLogin = function(){
+      $state.go('login');
+   };
 
   $scope.inputType = "password";
   
@@ -77,13 +100,15 @@ angular.module('starter.controllers', [])
      });
 
      successPopup.then(function(res) {
-       $state.go('login');
+       $scope.toLogin();
      });
    };
 
    $scope.newAccount = function(){
       $scope.showSuccess();
    };
+
+   
 
 })
 
@@ -95,6 +120,10 @@ angular.module('starter.controllers', [])
     historyRoot: true
   });
 
+  $scope.toLogin = function(){
+      $state.go('login');
+   };
+
   $scope.showSuccess = function() {
    var successPopup = $ionicPopup.alert({
      title: 'Passwort zurückgesetzt!',
@@ -102,7 +131,7 @@ angular.module('starter.controllers', [])
    });
 
    successPopup.then(function(res) {
-     $state.go('login');
+     $scope.toLogin();
    });
  };
 
@@ -170,20 +199,18 @@ angular.module('starter.controllers', [])
             
             e.preventDefault();
           } else {
-            return $scope.data.password;
+            $scope.editProfile();
           }
         }
+      },
+      { text: '<b>Abbrechen</b>',
+        type: 'button-dark',
+        onTap: function(){
+          myPopup.close();
+        }  
       }
     ]
   });
-
-  myPopup.then(function(res) {
-    $scope.editProfile();
-  });
-
-  $timeout(function() {
-     myPopup.close(); //close the popup after 3 seconds for some reason
-  }, 3000);
  };
 
   $scope.editProfile = function() {
