@@ -1,0 +1,66 @@
+<ion-view view-title="Raum suchen">
+  <ion-content>
+    
+    <form ng-submit="searchRoom()">
+      <div class="list">
+        <label class="item item-input item-select">
+          <span class="input-label">Veranstaltungsart</span>
+          <select ng-model="searchData.eventArt" placeholder="">
+          	<option value="" selected="true"></option>
+          	<option value="geb">Geburtstag</option>
+   			<option value="hochzeit">Hochzeit</option>
+          </select>
+        </label>
+    <div class="item item-divider"></div> 
+        <div class="row item">
+	        <label class="item-input item-stacked-label col col-33">
+	          <span class="input-label">Postleitzahl</span>
+	          <input type="text" ng-model="searchData.plz" placeholder="">
+	        </label>
+	        <label class="item-input item-stacked-label col">
+	          <span class="input-label">Ort</span>
+	          <input type="text" ng-model="searchData.location" placeholder="">
+	        </label>
+	    </div>
+    <div class="item item-divider"></div> 
+        <label class="item item-input">
+          <span class="input-label">Anzahl der Gäste</span>
+          <input type="text" ng-model="searchData.guests" placeholder="">
+        </label>
+    <div class="item item-divider"></div>  
+        <div class="item item-input row">
+        	<div class="col">
+		    	Ausstattung
+		    </div>
+		    <div class="col col-10">
+		        <button class="button button-right button-balanced button-small" type="button" ><i class="icon ion-plus"></i></button>
+		    </div>
+		</div>
+    <div class="item item-divider"></div> 
+    	<div class="row item">
+    		<div class="col col-33">
+	    		<label class="item-input item-stacked-label">
+			          <span class="input-label">Zeitraum</span>
+		        </label>
+	        </div>
+	        <div class="col col-33">
+		        <label class="item-input item-stacked-label">
+		        	  <span class="input-label">Von</span>
+			          <input type="text" ng-model="searchData.timestart" placeholder="dd.mm.yyyy">
+			    </label>
+			</div>
+			<div class="col col-33">
+			    <label class="item-input item-stacked-label">
+			          <span class="input-label">Bis</span>
+			          <input type="text" ng-model="searchData.timeend" placeholder="dd.mm.yyyy">
+			    </label>
+			</div>
+	    </div>
+    <div class="item item-divider"></div> 
+        <label class="item">
+          <button class="button button-block button-positive" type="submit"><i class="icon ion-search"></i></button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

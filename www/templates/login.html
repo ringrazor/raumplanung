@@ -1,0 +1,34 @@
+<ion-header-bar class="bar-stable" align-title="center">
+    <h1 class="title">Raumplanung</h1>
+</ion-header-bar>
+
+<ion-view view-title="Raumplanung">
+  <ion-content scroll="false">
+    <form ng-submit="doLogin()">
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span ng-repeat="gebaeu in data" ng-show="gebaeu.GEBID == 1" class="input-label">{{gebaeu.BEZEICHNUNG}}</span>
+          <input type="text" ng-model="loginData.username" placeholder="">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Passwort</span>
+          <input type="{{inputType}}" ng-model="loginData.password" placeholder="">
+        </label>
+        <div class="item item-divider"></div>        
+          <ion-checkbox id="checkbox" ng-click="hideShowPassword()">Passwort einblenden</ion-checkbox>
+        <div class="item item-divider"></div>  
+        <label class="item">
+          <button class="button button-block button-positive" type="submit"><i class="icon ion-log-in"></i> Anmelden</button>
+        </label>
+      </div>
+    </form>
+    <div class="row">
+            <div class="col col-50">
+              <button class="button button-full button-clear button-positive" ng-click="forgotPassword()">Passwort vergessen?</button> 
+            </div>
+            <div class="col col-50">   
+              <button class="button button-full button-clear button-positive" ng-click="toRegistration()">Noch keinen Account?</button>
+            </div>
+          </div>
+  </ion-content>
+</ion-view>

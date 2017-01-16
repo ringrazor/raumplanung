@@ -1,0 +1,35 @@
+<ion-modal-view view-title="Buchen">
+	<ion-header-bar class="bar-stable">
+		<h1 class="title">Buchen</h1>
+	</ion-header-bar>
+  <ion-content class="has-footer">
+    <div class="list">
+
+	  <div class="row item">
+    		<div class="col col-33">
+	    		<label class="item-input item-stacked-label">
+			          <span class="input-label">Zeitraum</span>
+		        </label>
+	        </div>
+	        <div class="col col-33">
+		        <label class="item-input item-stacked-label">
+		        	  <span class="input-label">Von</span>
+			          <input type="text" ng-model="bookData.timestart" placeholder="dd.mm.yyyy">
+			    </label>
+			</div>
+			<div class="col col-33">
+			    <label class="item-input item-stacked-label">
+			          <span class="input-label">Bis</span>
+			          <input type="text" ng-model="bookData.timeend" placeholder="dd.mm.yyyy">
+			    </label>
+			</div>
+	    </div>
+
+	  <div class="button-bar">
+	  	<button class="button button-balanced" ng-click="bookSubmit()" href="#/app/contact">Bestätigen</button>
+	  </div>
+	 
+
+
+  </ion-content>
+</ion-modal-view>
