@@ -3,13 +3,41 @@
 </ion-header-bar>
 
 <ion-view view-title="Registrierung">
-  <ion-content scroll="false">
-    <form ng-submit="newAccount()">
+  <ion-content>
+    <form ng-submit="createAccount()">
       <div class="list">
         <label class="item item-input item-stacked-label">
-          <span class="input-label">Benutzername</span>
-          <input type="text" ng-model="regData.username" placeholder="">
+          <span class="input-label">Vorname</span>
+          <input type="text" ng-model="regData.vname" placeholder="">
         </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Nachname</span>
+          <input type="text" ng-model="regData.name" placeholder="">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Geburtsdatum</span>
+          <input type="text" ng-model="regData.gebdat" placeholder="">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Anschrift</span>
+          <input type="text" ng-model="regData.anschrift" placeholder="">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Postleitzahl</span>
+          <input type="text" ng-model="regData.plz" placeholder="">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Ort</span>
+          <input type="text" ng-model="regData.ort" placeholder="">
+        </label>
+        <!--<label class="item item-input item-stacked-label">
+          <span class="input-label">IBAN</span>
+          <input type="text" ng-model="regData.iban" placeholder="">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">BIC</span>
+          <input type="text" ng-model="regData.bic" placeholder="">
+        </label>-->
         <label class="item item-input item-stacked-label">
           <span class="input-label">Email</span>
           <input type="text" ng-model="regData.email" placeholder="">

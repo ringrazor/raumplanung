@@ -14,6 +14,12 @@ angular.module('starter.controllers', [])
 
 .controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $http, $ionicPopup) {
 
+  $scope.emailTest = function(){
+      $http.post('http://193.196.175.194/emailtest.php/').success(function (response){
+        console.log("HTTP GET: " + response);
+      });
+   };
+
   $scope.loginData = {};
 
   $ionicSideMenuDelegate.canDragContent(false);
@@ -44,23 +50,79 @@ angular.module('starter.controllers', [])
            title: 'Fehlgeschlagen!',
            template: 'Benutzername oder Passwort falsch'
          })};
+  $scope.wrongVerifyCode = function() {
+         var wrongVerifyPopup = $ionicPopup.alert({
+           title: 'Falscher Bestätigungscode',
+           template: 'Bitte versuchen Sie es erneut'
+         })};
+  $scope.correctVerifyCode = function() {
+         var correctVerifyPopup = $ionicPopup.alert({
+           title: 'Erfolg',
+           template: 'Sie können sich nun einloggen'
+         })};
+  $scope.failedLoginVerify = function(emailadress) {
+         $scope.verifyData = {};
+         $scope.verifyData.email = emailadress;
 
-  $http.get('http://localhost/MemoRandomBackend/getContactdata.php/').then(function (response) {
-    console.log(response);
-    $scope.data = response.data;
+        var verifyPopup = $ionicPopup.show({
+          template: '<input type="text" ng-model="verifyData.verifycode">',
+          title: 'Bestätigungscode eingeben',
+          scope: $scope,
+          buttons: [
+            {
+              text: '<b>Bestätigen</b>',
+              type: 'button-positive',
+              onTap: function(e) {
+                if (!$scope.verifyData.verifycode) {
+                  
+                  e.preventDefault();
+                } else {
+                    $http.post('http://193.196.175.194/checkVerifyCode.php/', $scope.verifyData).success(function (data,status){
+                      console.log('HTTP: ' + status + data);
+                      if(data == 1){
+                        $scope.correctVerifyCode();
+                        verifyPopup.close();
+                      }
+                      else{
+                        $scope.wrongVerifyCode();
 
-  });
+                      }
+                    });
+
+
+                  }
+                }
+            },
+            { text: '<b>Abbrechen</b>',
+              type: 'button-dark',
+              onTap: function(){
+                verifyPopup.close();
+              }  
+            }
+          ]
+        });
+  }
+  
+  $scope.successfulLogin = function(name) {
+         var failedLoginPopup = $ionicPopup.alert({
+           title: 'Erfolgreich angemeldet!',
+           template: '<p align="center">Willkommen ' + name + '</p>'
+         })};
 
   $scope.doLogin = function(){
-
-    $http.post('http://localhost/MemoRandomBackend/setContactdata.php', $scope.loginData).success(function (data,status){
+    
+    $http.post('http://193.196.175.194/login.php/', $scope.loginData).success(function (data,status){
       console.log("HTTP POST: " + status + data);
-
-      if(data == 1){
+      
+      if(data.verified == 1 && status == 200){
+        $scope.successfulLogin(data.vname.VNAME);
         $state.go('app.searchroom');
       }
-      else {
+      else if(data.verified == 0) {
         $scope.failedLogin();
+      }
+      else if(data.verified == 2){
+        $scope.failedLoginVerify(data.email);
       }
     });
 
@@ -72,7 +134,7 @@ angular.module('starter.controllers', [])
   };
 
 })
-.controller('RegistrationCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $ionicPopup) {
+.controller('RegistrationCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $ionicPopup, $http) {
 
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicHistory.nextViewOptions({
@@ -80,10 +142,15 @@ angular.module('starter.controllers', [])
     historyRoot: true
   });
 
+  //Variabeln
+
+  $scope.regData = {};
+
+  //Funktionen
+
   $scope.toLogin = function(){
       $state.go('login');
    };
-
   $scope.inputType = "password";
   
   $scope.hideShowPassword = function(){
@@ -95,13 +162,34 @@ angular.module('starter.controllers', [])
 
   $scope.showSuccess = function() {
      var successPopup = $ionicPopup.alert({
-       title: 'Erfolg!',
-       template: 'Ihr Account wurde erfolgreicherstellt'
+       title: 'Account erstellt!',
+       template: 'Ein Bestätigungscode wurden Ihnen per Mail gesendet'
      });
 
      successPopup.then(function(res) {
        $scope.toLogin();
      });
+   };
+
+   $scope.showFail = function() {
+     var successPopup = $ionicPopup.alert({
+       title: 'Fehlgeschlagen!',
+       template: 'Bitte alle Felder ausfüllen'
+     });
+   };
+
+   $scope.createAccount = function(){
+
+      $http.post('http://193.196.175.194/createAccount.php/', $scope.regData).success(function (data,status){
+      console.log("HTTP POST: " + status + data);
+      if(data == 1){
+        $scope.showSuccess();
+      }
+      else{
+        $scope.showFail();
+      }
+      
+    });
    };
 
    $scope.newAccount = function(){
