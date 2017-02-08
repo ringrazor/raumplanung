@@ -14,12 +14,6 @@ angular.module('starter.controllers', [])
 
 .controller('LoginCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $http, $ionicPopup) {
 
-  $scope.emailTest = function(){
-      $http.post('http://193.196.175.194/emailtest.php/').success(function (response){
-        console.log("HTTP GET: " + response);
-      });
-   };
-
   $scope.loginData = {};
 
   $ionicSideMenuDelegate.canDragContent(false);
@@ -49,23 +43,80 @@ angular.module('starter.controllers', [])
          var failedLoginPopup = $ionicPopup.alert({
            title: 'Fehlgeschlagen!',
            template: 'Benutzername oder Passwort falsch'
-         })};
+         });
+  };
   $scope.wrongVerifyCode = function() {
          var wrongVerifyPopup = $ionicPopup.alert({
            title: 'Falscher Bestätigungscode',
            template: 'Bitte versuchen Sie es erneut'
-         })};
+         });
+  };
   $scope.correctVerifyCode = function() {
          var correctVerifyPopup = $ionicPopup.alert({
            title: 'Erfolg',
            template: 'Sie können sich nun einloggen'
-         })};
+         });
+  };
+  $scope.successNewPw = function(){
+        var successNewPwPopup = $ionicPopup.alert({
+           title: 'Passwort geändert',
+           template: 'Sie können sich nun einloggen'
+         });
+  };
+  $scope.failedLoginNewPw = function(emailadress){
+      $scope.npwData = {};
+      $scope.npwData.email = emailadress;
+
+      var npwPopup = $ionicPopup.show({
+        template: '<div class="list"><input type="password" ng-model="npwData.newPw" placeholder="Neues Passwort"/></br><input type="password" ng-model="npwData.newPwWh" placeholder="Passwort wiederholen"/></div>',
+        title: 'Neues Passwort eingeben',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>Bestätigen</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              if (!$scope.npwData.newPw && !$scope.npwData.newPwWh) {
+                e.preventDefault();
+              } else {
+                  $http.post('http://193.196.175.194/newPassword.php/', $scope.npwData).success(function (data,status){
+                    console.log('HTTP: ' + status + data);
+                    if(data == 1){
+                      $scope.successNewPw();
+                      npwPopup.close();
+                    }
+                    else{
+                      $scope.wrongNewPw(emailadress);
+                    }
+                  });
+                }
+              }
+          },
+          { text: '<b>Abbrechen</b>',
+            type: 'button-dark',
+            onTap: function(){
+              npwPopup.close();
+            }  
+          }
+        ]
+      });
+  };
+  $scope.wrongNewPw = function(emailadress){
+    var wrongNewPwPopup = $ionicPopup.alert({
+           title: 'Fehlgeschlagen!',
+           template: 'Eingaben stimmen nicht überein'
+         });
+    wrongNewPwPopup.then(function(res) {
+       $scope.failedLoginNewPw(emailadress);
+     });
+
+  };
   $scope.failedLoginVerify = function(emailadress) {
          $scope.verifyData = {};
          $scope.verifyData.email = emailadress;
 
         var verifyPopup = $ionicPopup.show({
-          template: '<input type="text" ng-model="verifyData.verifycode">',
+          template: '<input type="text" ng-model="verifyData.verifycode"/>',
           title: 'Bestätigungscode eingeben',
           scope: $scope,
           buttons: [
@@ -101,13 +152,14 @@ angular.module('starter.controllers', [])
             }
           ]
         });
-  }
+  };
   
   $scope.successfulLogin = function(name) {
          var failedLoginPopup = $ionicPopup.alert({
            title: 'Erfolgreich angemeldet!',
            template: '<p align="center">Willkommen ' + name + '</p>'
-         })};
+         })
+  };
 
   $scope.doLogin = function(){
     
@@ -117,6 +169,10 @@ angular.module('starter.controllers', [])
       if(data.verified == 1 && status == 200){
         $scope.successfulLogin(data.vname.VNAME);
         $state.go('app.searchroom');
+        $ionicHistory.nextViewOptions({
+          disableBack: true,
+          historyRoot: true
+        });
       }
       else if(data.verified == 0) {
         $scope.failedLogin();
@@ -124,13 +180,10 @@ angular.module('starter.controllers', [])
       else if(data.verified == 2){
         $scope.failedLoginVerify(data.email);
       }
+      else if(data.verified == 3){
+        $scope.failedLoginNewPw(data.email);
+      }
     });
-
-   /* $state.go('app.searchroom');
-    $ionicHistory.nextViewOptions({
-      disableBack: true,
-      historyRoot: true
-    });*/
   };
 
 })
@@ -192,25 +245,33 @@ angular.module('starter.controllers', [])
     });
    };
 
-   $scope.newAccount = function(){
-      $scope.showSuccess();
-   };
-
-   
-
 })
 
 
-.controller('PasswordResetCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $ionicPopup) {
+.controller('PasswordResetCtrl', function($scope, $state, $ionicSideMenuDelegate, $ionicHistory, $ionicPopup, $http) {
+  
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicHistory.nextViewOptions({
     disableBack: true,
     historyRoot: true
   });
 
+  //Variabeln
+
+  $scope.resetData = {};
+
+  //Funktionen
+
   $scope.toLogin = function(){
       $state.go('login');
    };
+
+  $scope.showFail = function() {
+   var successPopup = $ionicPopup.alert({
+     title: 'Fehlgeschlagen!',
+     template: 'Kein Konto mit eingegebener Email-Adresse vorhanden'
+   });
+  };
 
   $scope.showSuccess = function() {
    var successPopup = $ionicPopup.alert({
@@ -221,12 +282,23 @@ angular.module('starter.controllers', [])
    successPopup.then(function(res) {
      $scope.toLogin();
    });
- };
+  };
 
 
   $scope.resetPassword = function(){
-    $scope.showSuccess();
+
+    $http.post('http://193.196.175.194/resetPassword.php/', $scope.resetData).success(function (data,status){
+      console.log("HTTP POST: " + status + data);
+      if(data == 1){
+        $scope.showSuccess();
+      }
+      else{
+        $scope.showFail();
+      }
+      
+    });
   };
+
 })
 .controller('SearchRoomCtrl', function($scope, $state) {
   
