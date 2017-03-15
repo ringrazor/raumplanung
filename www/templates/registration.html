@@ -1,60 +1,51 @@
-<ion-header-bar class="bar-stable" align-title="center">
-    <h1 class="title">Registrierung</h1>
+<ion-header-bar class="bar-dark" align-title="center">
+  <h1 class="title">Registrierung</h1>
 </ion-header-bar>
-
 <ion-view view-title="Registrierung">
   <ion-content>
-    <form ng-submit="createAccount()">
+    <form name="Registration" ng-controller="RegistrationCtrl">
       <div class="list">
         <label class="item item-input item-stacked-label">
           <span class="input-label">Vorname</span>
-          <input type="text" ng-model="regData.vname" placeholder="">
+          <input type="text" ng-model="regData.vname" placeholder="" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Nachname</span>
-          <input type="text" ng-model="regData.name" placeholder="">
+          <input type="text" ng-model="regData.name" placeholder="" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Geburtsdatum</span>
-          <input type="text" ng-model="regData.gebdat" placeholder="">
+          <input type="text" ng-model="bDay" ng-click="showDatePickerBday();" placeholder="tt.mm.jjjj" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Anschrift</span>
-          <input type="text" ng-model="regData.anschrift" placeholder="">
+          <input type="text" ng-model="regData.anschrift" placeholder="" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Postleitzahl</span>
-          <input type="text" ng-model="regData.plz" placeholder="">
+          <input type="text" ng-model="regData.plz" placeholder="" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Ort</span>
-          <input type="text" ng-model="regData.ort" placeholder="">
+          <input type="text" ng-model="regData.ort" placeholder="" required/>
         </label>
-        <!--<label class="item item-input item-stacked-label">
-          <span class="input-label">IBAN</span>
-          <input type="text" ng-model="regData.iban" placeholder="">
-        </label>
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">BIC</span>
-          <input type="text" ng-model="regData.bic" placeholder="">
-        </label>-->
         <label class="item item-input item-stacked-label">
           <span class="input-label">Email</span>
-          <input type="text" ng-model="regData.email" placeholder="">
+          <input type="text" ng-model="regData.email" placeholder="" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Passwort</span>
-          <input type="{{inputType}}" ng-model="regData.password" placeholder="">
+          <input type="{{inputType}}" ng-model="regData.password" placeholder="" required/>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Passwort wiederholen</span>
-          <input type="{{inputType}}" ng-model="regData.passwordrepeat" placeholder="">
+          <input type="{{inputType}}" ng-model="regData.passwordrepeat" placeholder="" required/>
         </label>
-        <div class="item item-divider"></div>        
-          <ion-checkbox id="checkbox" ng-click="hideShowPassword()">Passwort einblenden</ion-checkbox>
-        <div class="item item-divider"></div>  
+      <div class="item item-divider"></div>        
+        <ion-checkbox id="checkbox" ng-click="hideShowPassword()">Passwort einblenden</ion-checkbox>
+      <div class="item item-divider"></div>  
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Konto erstellen</button>
+          <button class="button button-block button-positive" type="button" ng-click="createAccount()">Konto erstellen</button>
         </label>
         <label class="item">
           <button class="button button-block button-dark" type="button" ng-click="toLogin()">Abbrechen</button>

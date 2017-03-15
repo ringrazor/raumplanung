@@ -1,0 +1,27 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-dark">
+    <h1 class="title">Adresse ändern</h1>
+  </ion-header-bar>
+  <ion-content class="has-footer">
+    <form name="changeAddress" ng-controller="ProfileCtrl">
+      <div class="list">
+        <div class="item item-icon-left">
+          <i class="icon ion-clipboard"></i>
+          <input type="text" ng-model="profile.address" placeholder="Anschrift" required />
+        </div>
+        <div class="item item-icon-left">
+          <input type="text" ng-model="profile.postcode" placeholder="Postleitzahl" required />
+        </div>
+        <div class="item item-icon-left">
+          <input type="text" ng-model="profile.location" placeholder="Ort" required />
+        </div>
+        <div class="button-bar">
+          <button type="submit" class="button button-positive" ng-disabled="changeAddress.$invalid"
+           ng-click="updateProfile('address','', '', '', '', profile.address, profile.postcode, profile.location); 
+           modal.remove();"><i class="button-icon ion-edit"></i> Ändern</button>
+          <button type="button" class="button button-dark" ng-click="modal.remove()"><i class="button-icon ion-close"></i> Abbrechen</button>
+        </div>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

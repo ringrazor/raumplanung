@@ -1,26 +1,17 @@
 <ion-view view-title="Suchergebnis">
-  <ion-content>
-    <div class="list">
-	    <a class="item item-thumbnail-left" href="#/app/roomdetail">
-	      <img src="img/ionic.png">
-	      <h2>Raum 1</h2>
-	      <p>89518 Heidenheim</p>
-	    </a>
-	    <a class="item item-thumbnail-left" href="#">
-	      <img src="img/ionic.png">
-	      <h2>Raum 2</h2>
-	      <p>89518 Heidenheim</p>
-	    </a>
-	    <a class="item item-thumbnail-left" href="#">
-	      <img src="img/ionic.png">
-	      <h2>Raum 3</h2>
-	      <p>89518 Heidenheim</p>
-	    </a>
-	    <a class="item item-thumbnail-left" href="#">
-	      <img src="img/ionic.png">
-	      <h2>Raum 4</h2>
-	      <p>89518 Heidenheim</p>
-	    </a>
-	</div>
-  </ion-content>
+	<ion-content>
+		<div ng-repeat="result in searchRes" class="list card">
+      		<div class="item item-thumbnail-left item-button-right">
+		        <img src="http://193.196.175.194/image/{{result.IMGDATA}}">
+		        <h2>{{result.BESCHREIBUNG}}</h2>
+		        <p>{{result.NUMMER}}</p>
+		        <button type="button" class="button button-small button-positive" ng-click="book(bookData, {{result.RAUMID}})">Buchen</button>
+      		</div>
+     		<div class="item">
+		        <p>Straße: {{result.ANSCHRIFT}}</p>
+		        <p>Ort: {{result.ORT}}</p>
+		        <p>Postleitzahl: {{result.PLZ}}</p>
+      		</div>
+    	</div>
+	</ion-content>
 </ion-view>

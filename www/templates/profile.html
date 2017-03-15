@@ -1,34 +1,30 @@
 <ion-view view-title="Mein Profil">
   <ion-content>
     <div class="list">
-
-    <div class="item item-icon-left" id="">
-      <i class="icon ion-card"></i>
-        <p ng-model="profile.username">Benutzername</p>
-    </div>
-
-    <div class="item item-icon-left" id="">
-      <i class="icon ion-email"></i>
-        <p ng-model="profile.email">Email-Adresse</p>
-    </div>
-
-    <div class="item item-icon-left" id="">
-      <i class="icon ion-key"></i>
-        <p type="password" ng-model="profile.password">Passwort</p>
-    </div>
-
-    <div class="item item-icon-left" id="">
-      <i class="icon ion-clipboard"></i>
-        <p ng-model="profile.adress">Adresse</p>
-    </div>
-
-    <div class="item item-icon-left">
-      <i class="icon ion-android-call"></i>
-        <p ng-model="profile.tel">Telefon/Handy</p>
-    </div>
-
-    <div>
-      <button class="button button-full button-positive" ng-click="validatePassword()">Kontaktdaten ändern</button>
+      <div class="item item-icon-left item-button-right">
+        <i class="icon ion-person"></i>
+        <p ng-model="profile.name">{{profileData.VNAME}} {{profileData.NAME}}</p>
+        <button type="button" class="button button-positive" ng-click="validatePassword('name')"><i class="button-icon ion-edit"></i></button>
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-asterisk"></i>
+        <p ng-model="profile.birthday">{{profileData.GEBDAT[8]}}{{profileData.GEBDAT[9]}}.{{profileData.GEBDAT[5]}}{{profileData.GEBDAT[6]}}.{{profileData.GEBDAT[0]}}{{profileData.GEBDAT[1]}}{{profileData.GEBDAT[2]}}{{profileData.GEBDAT[3]}}</p>
+      </div>
+      <div class="item item-icon-left item-button-right" id="">
+        <i class="icon ion-email"></i>
+        <p ng-model="profile.email">{{profileData.EMAIL}}</p>
+        <button type="button" class="button button-positive" ng-click="validatePassword('email')"><i class="button-icon ion-edit"></i></button>
+      </div>
+      <div class="item item-icon-left item-button-right" id="">
+        <i class="icon ion-key"></i>
+        <p>******</p>
+        <button type="button" class="button button-positive" ng-click="validatePassword('pw')"><i class="button-icon ion-edit"></i></button>
+      </div>
+      <div class="item item-icon-left item-button-right" id="">
+        <i class="icon ion-clipboard"></i>
+        <p ng-model="profile.address">{{profileData.ANSCHRIFT}}, {{profileData.PLZ}} {{profileData.ORT}}</p>
+        <button type="button" class="button button-positive" ng-click="validatePassword('address')"><i class="button-icon ion-edit"></i></button>
+      </div>
     </div>
   </ion-content>
 </ion-view>

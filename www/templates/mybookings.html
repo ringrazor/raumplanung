@@ -1,11 +1,16 @@
 <ion-view view-title="Meine Buchungen">
-  <ion-content>
-    <div class="list">
-	    <a class="item item-thumbnail-left" href="#/app/roomdetail">
-	      <img src="img/ionic.png">
-	      <h2>Raum 1</h2>
-	      <p>89518 Heidenheim</p>
-	    </a>
-	</div>
-  </ion-content>
+	<ion-content>
+		<ion-list ng-repeat="booking in bookings" class="list">
+			<div class="item item-thumbnail-left" href="">
+				<img src="http://193.196.175.194/image/{{booking.IMGDATA}}">
+				<h2>{{booking.BESCHREIBUNG}} {{booking.NUMMER}}</h2>
+				<p>Von: {{booking.VONDATUM}}</p>
+				<p>Bis: {{booking.BISDATUM}}</p>
+				<p>{{booking.ANSCHRIFT}}</p>
+				<p>{{booking.PLZ}} {{booking.ORT}}</p>
+				<button type="button" class="button button-small button-dark" ng-click="showDelConfirm({{booking.LFDID}})">
+				<i class="icon ion-minus button-icon"></i></button>
+			</div>
+		</ion-list>
+	</ion-content>
 </ion-view>

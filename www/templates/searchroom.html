@@ -1,66 +1,65 @@
 <ion-view view-title="Raum suchen">
-  <ion-content>
-    
-    <form ng-submit="searchRoom()">
-      <div class="list">
-        <label class="item item-input item-select">
-          <span class="input-label">Veranstaltungsart</span>
-          <select ng-model="searchData.eventArt" placeholder="">
-          	<option value="" selected="true"></option>
-          	<option value="geb">Geburtstag</option>
-   			<option value="hochzeit">Hochzeit</option>
-          </select>
-        </label>
-    <div class="item item-divider"></div> 
-        <div class="row item">
-	        <label class="item-input item-stacked-label col col-33">
-	          <span class="input-label">Postleitzahl</span>
-	          <input type="text" ng-model="searchData.plz" placeholder="">
-	        </label>
-	        <label class="item-input item-stacked-label col">
-	          <span class="input-label">Ort</span>
-	          <input type="text" ng-model="searchData.location" placeholder="">
-	        </label>
-	    </div>
-    <div class="item item-divider"></div> 
-        <label class="item item-input">
-          <span class="input-label">Anzahl der Gäste</span>
-          <input type="text" ng-model="searchData.guests" placeholder="">
-        </label>
-    <div class="item item-divider"></div>  
-        <div class="item item-input row">
-        	<div class="col">
-		    	Ausstattung
-		    </div>
-		    <div class="col col-10">
-		        <button class="button button-right button-balanced button-small" type="button" ><i class="icon ion-plus"></i></button>
-		    </div>
+	<ion-content>
+		<form name="searchForm" ng-controller="SearchRoomCtrl">
+			<div class="list">
+				<label class="item item-input item-select">
+					<div class="input-label">Veranstaltungsart</div>
+					<select ng-model="searchData.eventType">
+						<option value="" selected>keine Angabe</option>
+						<option value="Vorlesung">Vorlesung</option>
+						<option value="Seminar">Seminar</option>
+						<option value="Feier">Feier</option>
+						<option value="Veranstaltung">Veranstaltung</option>
+						<option value="Geburtstag">Geburtstag</option>
+						<option value="Hochzeit">Hochzeit</option>
+					</select>
+				</label>
+			<div class="item item-divider"></div> 
+				<div class="row item">
+					<label class="item-input item-stacked-label col col-33">
+						<span class="input-label">Postleitzahl</span>
+						<input type="number" ng-model="searchData.postcode" placeholder="PLZ" />
+					</label>
+					<label class="item-input item-stacked-label col">
+						<span class="input-label">Ort</span>
+						<input type="text" ng-model="searchData.location" placeholder="Ort" />
+					</label>
+				</div>
+			<div class="item item-divider"></div> 
+				<div class="item item-input">
+					<span class="input-label">Anzahl der Gäste</span>
+					<input type="number" 
+					oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+					maxlength="5" ng-model="searchData.guests" placeholder="Gästeanzahl"/>
+				</div>
+			<div class="item item-divider"></div>  
+					<ion-list>
+				        <ion-checkbox ng-model="searchData.beamer" value="Beamer">Beamer</ion-checkbox>
+				        <ion-checkbox ng-model="searchData.blackboard" value="Tafel">Tafel</ion-checkbox>
+				        <ion-checkbox ng-model="searchData.flipchart" value="Flipchart">Flipchart</ion-checkbox>
+				        <ion-checkbox ng-model="searchData.soundsystem" value="Musikanlage">Musikanlage</ion-checkbox>
+				    </ion-list>
+			<div class="item item-divider"></div> 
+				<label class="item-input item-stacked-label">
+					<span class="input-label">Buchen von*</span>
+					<input type="datetime" ng-model="dateFrom" ng-click="showDatePickerFrom();" placeholder="tt.mm.jjjj" required />
+				</label>
+				<label class="item-input item-stacked-label">
+					<span class="input-label">Buchen bis*</span>
+					<input type="datetime" ng-model="dateTo" ng-click="showDatePickerTo();" placeholder="tt.mm.jjjj" required />
+				</label>				
+			<div class="item item-divider"></div> 
+				<label class="item">
+					<button class="button button-block button-positive" type="submit"
+					 ng-click="searchRoom(searchData)" ng-disabled="dateFrom == '' || dateTo == ''"><i class="icon ion-search"></i></button>
+				</label>
+			</div>
+		</form>
+		<div class="list">
+			<label class="item">
+				<button class="button button-block button-dark" type="button" 
+							ng-click="newSearch()">Neue Suche</i></button>
+			</label>
 		</div>
-    <div class="item item-divider"></div> 
-    	<div class="row item">
-    		<div class="col col-33">
-	    		<label class="item-input item-stacked-label">
-			          <span class="input-label">Zeitraum</span>
-		        </label>
-	        </div>
-	        <div class="col col-33">
-		        <label class="item-input item-stacked-label">
-		        	  <span class="input-label">Von</span>
-			          <input type="text" ng-model="searchData.timestart" placeholder="dd.mm.yyyy">
-			    </label>
-			</div>
-			<div class="col col-33">
-			    <label class="item-input item-stacked-label">
-			          <span class="input-label">Bis</span>
-			          <input type="text" ng-model="searchData.timeend" placeholder="dd.mm.yyyy">
-			    </label>
-			</div>
-	    </div>
-    <div class="item item-divider"></div> 
-        <label class="item">
-          <button class="button button-block button-positive" type="submit"><i class="icon ion-search"></i></button>
-        </label>
-      </div>
-    </form>
-  </ion-content>
+	</ion-content>
 </ion-view>
