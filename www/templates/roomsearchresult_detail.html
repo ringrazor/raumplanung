@@ -1,0 +1,31 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-dark">
+    <h1 class="title">Raum: {{resultDetailData.NUMMER}}</h1>
+  </ion-header-bar>
+  <ion-content class="has-footer">
+    <div class="list">
+      <div class="item item-icon-left">
+        <i class="icon ion-arrow-up-c"></i>
+        <p><h4>Höhe:</h4> {{resultDetailData.HOEHE}}</p>
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-arrow-expand"></i>
+        <p><h4>Fläche:</h4> {{resultDetailData.FLAECHE}}</p>
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-person"></i>
+        <p><h4>Gäste:</h4> {{resultDetailData.PERSONEN}}</p>
+      </div>
+      <div class="item item-icon-left">
+        <i class="icon ion-clipboard"></i>
+        <p><h4>Beschreibung:</h4></p>
+        <p> {{resultDetailData.BESCHREIBUNG}}</p>
+      </div>
+      <div class="item">
+        <button type="button" class="button button-full button-dark" ng-click="resetDetail(); modal.remove()">
+        <i class="button-icon ion-close"></i> Schließen</button>
+      </div>
+    </div>
+      
+  </ion-content>
+</ion-modal-view>

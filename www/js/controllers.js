@@ -467,7 +467,7 @@ angular.module('starter.controllers', [])
 })
 
 // RAUM-SUCHERGEBNISSE
-.controller('RoomSearchResultCtrl', function($scope, $state, $ionicHistory, $ionicPopup, $http, CheckUserService, StorageService, SearchService) {
+.controller('RoomSearchResultCtrl', function($scope, $state, $ionicHistory, $ionicPopup, $ionicModal, $http, CheckUserService, StorageService, SearchService) {
   
   //Validation des Zugriffs
   $scope.$on('$ionicView.beforeEnter', function(){
@@ -515,14 +515,30 @@ angular.module('starter.controllers', [])
    });
   };
 
+  $scope.showDetail = function(detaildata){
+    $scope.resultDetailData = detaildata;
+    $ionicModal.fromTemplateUrl('templates/roomsearchresult_detail.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  };
+
+  $scope.resetDetail = function(){
+    $scope.resultDetailData = "";   
+  };
+
+
   $scope.book = function(bookdata,roomid){
     $scope.bookData.roomId = roomid;
     $http.post('http://193.196.175.194/php/bookRoom.php/', $scope.bookData).success(function(data,status){
       console.log(data + status);
       if(data == 1){
         $scope.showSuccess();
-        StorageService.clearToDateTime();
-        StorageService.clearFromDateTime();
+        SearchService.clearToDateTime();
+        SearchService.clearFromDateTime();
       }
       else{
         $scope.showFail();
@@ -535,8 +551,8 @@ angular.module('starter.controllers', [])
     $scope.fromDt = "";
     $scope.toDt = "";
     $scope.bookData = {};
-    StorageService.clearToDateTime();
-    StorageService.clearFromDateTime();
+    SearchService.clearToDateTime();
+    SearchService.clearFromDateTime();
   });
 })
 
